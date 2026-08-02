@@ -97,7 +97,7 @@ LOGOUT_REDIRECT_URL = 'login'
 
 # --- Internacionalización --------------------------------------------------
 LANGUAGE_CODE = 'es'
-TIME_ZONE = os.environ.get('DJANGO_TIME_ZONE', 'America/Mexico_City')
+TIME_ZONE = os.environ.get('DJANGO_TIME_ZONE', 'Europe/Madrid')
 USE_I18N = True
 USE_TZ = True
 
