@@ -11,11 +11,13 @@ class Cliente(models.Model):
         OTRO = 'otro', 'Otro'
 
     nombre_completo = models.CharField(max_length=200, verbose_name='Nombre completo / Razón social')
+    apodo = models.CharField(max_length=200, verbose_name='Apodo / Mote')
     tipo_documento = models.CharField(max_length=20, choices=TipoDocumento.choices, default=TipoDocumento.DNI)
     numero_documento = models.CharField(max_length=30, blank=True, verbose_name='Número de documento')
     telefono = models.CharField(max_length=20, blank=True)
     telefono_alternativo = models.CharField(max_length=20, blank=True)
     email = models.EmailField(blank=True)
+    poblacion = models.CharField(max_length=255, blank=True)
     direccion = models.CharField(max_length=255, blank=True)
     latitud = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
     longitud = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
@@ -41,6 +43,12 @@ class Contrato(models.Model):
         CANCELADO = 'cancelado', 'Cancelado'
         PENDIENTE = 'pendiente', 'Pendiente de instalación'
 
+    class Conexion(models.TextChoices):
+        PPPOE = 'PPPoE', 'PPPoE'
+        SQ = 'SimpleQueue', 'Simple Queue'
+        DHCP = 'dhcp', 'DHCP'
+        WIFI = 'wifi', 'WIFI'
+
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='contratos')
     nombre_plan = models.CharField(max_length=100, verbose_name='Plan / Servicio')
     velocidad_bajada_mbps = models.PositiveIntegerField(verbose_name='Velocidad de bajada (Mbps)')
@@ -51,6 +59,7 @@ class Contrato(models.Model):
     fecha_cancelacion = models.DateField(null=True, blank=True)
 
     # Campos pensados para la integración futura con el servicio MikroTik.
+    conexion = models.CharField(max_length=20, choices=Conexion.choices, default=Conexion.DHCP, verbose_name='Tipo de conexión')
     pppoe_usuario = models.CharField(max_length=100, blank=True, verbose_name='Usuario PPPoE')
     ip_asignada = models.GenericIPAddressField(null=True, blank=True, verbose_name='IP asignada')
 
