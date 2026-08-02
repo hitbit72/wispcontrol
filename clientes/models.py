@@ -44,9 +44,10 @@ class Contrato(models.Model):
         PENDIENTE = 'pendiente', 'Pendiente de instalación'
 
     class Conexion(models.TextChoices):
-        PPPOE = 'PPPoE', 'PPPoE'
-        SQ = 'SimpleQueue', 'Simple Queue'
+        PPPOE = 'pppoe', 'PPPoE'
+        SQ = 'sq', 'Simple Queue'
         DHCP = 'dhcp', 'DHCP'
+        IP = 'ip', 'IP Fija'
         WIFI = 'wifi', 'WIFI'
 
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='contratos')
@@ -61,6 +62,7 @@ class Contrato(models.Model):
     # Campos pensados para la integración futura con el servicio MikroTik.
     conexion = models.CharField(max_length=20, choices=Conexion.choices, default=Conexion.DHCP, verbose_name='Tipo de conexión')
     pppoe_usuario = models.CharField(max_length=100, blank=True, verbose_name='Usuario PPPoE')
+    pppoe_clave = models.CharField(max_length=100, blank=True, verbose_name='Clave PPPoE')
     ip_asignada = models.GenericIPAddressField(null=True, blank=True, verbose_name='IP asignada')
 
     notas = models.TextField(blank=True)
