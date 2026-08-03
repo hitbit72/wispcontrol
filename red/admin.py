@@ -9,8 +9,8 @@ class InterfazInline(admin.TabularInline):
 
 @admin.register(Sector)
 class SectorAdmin(admin.ModelAdmin):
-    list_display = ('nombre',)
-    search_fields = ('nombre',)
+    list_display = ('nombre','poblacion')
+    search_fields = ('nombre','poblacion')
 
 
 @admin.register(Dispositivo)

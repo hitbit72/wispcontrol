@@ -7,9 +7,12 @@ class Sector(models.Model):
     'Torre Centro'). Útil para organizar el inventario y, más adelante, el mapa.
     """
     nombre = models.CharField(max_length=100, unique=True)
+    poblacion = models.CharField(max_length=255, blank=True)
+    direccion = models.CharField(max_length=255, blank=True)
     descripcion = models.TextField(blank=True)
     latitud = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
     longitud = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
+    altitud = models.IntegerField(default=0, null=True, blank=True, help_text='Altitud en metros sobre el nivel del mar.')
 
     class Meta:
         verbose_name = 'Sector'
