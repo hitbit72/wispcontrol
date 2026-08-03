@@ -46,10 +46,16 @@ class Dispositivo(models.Model):
     class Marca(models.TextChoices):
         MIKROTIK = 'mikrotik', 'MikroTik'
         UBIQUITI = 'ubiquiti', 'Ubiquiti'
+        DLINK = 'dlink', 'D-Link'
         TPLINK = 'tplink', 'TP-Link'
         HUAWEI = 'huawei', 'Huawei'
         TENDA = 'tenda', 'Tenda'
+        ASUS = 'asus', 'Asus'
+        NETGEAR = 'netgear', 'Netgear'
+        CISCO = 'cisco', 'Cisco'
         ZTE = 'zte', 'ZTE'
+        HPE = 'hpe', 'HPE Aruba'
+        FORTINET = 'fortinet', 'Fortinet'
         OTRO = 'otro', 'Otro'
 
     class Estado(models.TextChoices):
