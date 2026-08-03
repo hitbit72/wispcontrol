@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'accounts',
     'clientes',
     'red',
+    'mikrotik',
 ]
 
 MIDDLEWARE = [
@@ -83,6 +84,10 @@ DATABASES = {
 
 # --- Usuario personalizado (con roles) ------------------------------------
 AUTH_USER_MODEL = 'accounts.Usuario'
+
+# --- Cifrado de campos sensibles (ej. clave API de routers MikroTik) ------
+# Generar con: python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+FIELD_ENCRYPTION_KEY = os.environ.get('FIELD_ENCRYPTION_KEY')
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},

@@ -51,9 +51,7 @@ class Contrato(models.Model):
         WIFI = 'wifi', 'WIFI'
 
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='contratos')
-    nombre_plan = models.CharField(max_length=100, verbose_name='Plan / Servicio')
-    velocidad_bajada_mbps = models.PositiveIntegerField(verbose_name='Velocidad de bajada (Mbps)')
-    velocidad_subida_mbps = models.PositiveIntegerField(verbose_name='Velocidad de subida (Mbps)')
+    plan = models.ForeignKey('mikrotik.Plan', on_delete=models.PROTECT, related_name='contratos', verbose_name='Plan')
     precio_mensual = models.DecimalField(max_digits=8, decimal_places=2)
     estado = models.CharField(max_length=20, choices=Estado.choices, default=Estado.PENDIENTE)
     fecha_inicio = models.DateField(null=True, blank=True)
@@ -73,4 +71,4 @@ class Contrato(models.Model):
         ordering = ['-fecha_inicio']
 
     def __str__(self):
-        return f'{self.cliente.nombre_completo} · {self.nombre_plan}'
+        return f'{self.cliente.nombre_completo} · {self.plan.nombre}'

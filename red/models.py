@@ -1,5 +1,4 @@
 from django.db import models
-from clientes.models import Cliente
 
 
 class Sector(models.Model):
@@ -44,10 +43,10 @@ class Dispositivo(models.Model):
     class Marca(models.TextChoices):
         MIKROTIK = 'mikrotik', 'MikroTik'
         UBIQUITI = 'ubiquiti', 'Ubiquiti'
-        HUAWEI = 'huawei', 'Huawei'
-        ZTE = 'zte', 'ZTE'
         TPLINK = 'tplink', 'TP-Link'
+        HUAWEI = 'huawei', 'Huawei'
         TENDA = 'tenda', 'Tenda'
+        ZTE = 'zte', 'ZTE'
         OTRO = 'otro', 'Otro'
 
     class Estado(models.TextChoices):
@@ -62,7 +61,7 @@ class Dispositivo(models.Model):
 
     sector = models.ForeignKey(Sector, on_delete=models.SET_NULL, null=True, blank=True, related_name='dispositivos')
     cliente = models.ForeignKey(
-        Cliente, on_delete=models.SET_NULL, null=True, blank=True,
+        'clientes.Cliente', on_delete=models.SET_NULL, null=True, blank=True,
         related_name='dispositivos',
         help_text='Solo aplica cuando el tipo es "Antena de cliente".',
     )

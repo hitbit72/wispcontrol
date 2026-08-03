@@ -17,6 +17,6 @@ class ClienteAdmin(admin.ModelAdmin):
 
 @admin.register(Contrato)
 class ContratoAdmin(admin.ModelAdmin):
-    list_display = ('cliente', 'nombre_plan', 'conexion', 'estado', 'velocidad_bajada_mbps', 'velocidad_subida_mbps', 'precio_mensual')
-    list_filter = ('estado', 'conexion', 'nombre_plan')
-    search_fields = ('cliente__nombre_completo', 'pppoe_usuario', 'ip_asignada')
+    list_display = ('cliente', 'plan', 'conexion', 'estado', 'precio_mensual')
+    list_filter = ('estado', 'conexion', 'plan__router')
+    search_fields = ('cliente__nombre_completo', 'plan__nombre', 'pppoe_usuario', 'ip_asignada')
