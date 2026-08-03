@@ -74,8 +74,8 @@ class Plan(models.Model):
         verbose_name='Address list',
         help_text="Nombre de la address-list de RouterOS asociada a este plan.",
     )
-    limit_down = models.PositiveIntegerField(default=8)
-    limit_up = models.PositiveIntegerField(default=3)
+    limit_down = models.PositiveIntegerField(default=8, verbose_name='Limite de bajada (Mbps)')
+    limit_up = models.PositiveIntegerField(default=3, verbose_name='Limite de subida (Mbps)')
     priority_down = models.PositiveIntegerField(
         default=6, validators=[MinValueValidator(1), MaxValueValidator(8)],
         help_text="Prioridad de RouterOS (1 a 8, donde 1 es la más alta).",
