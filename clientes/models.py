@@ -11,7 +11,7 @@ class Cliente(models.Model):
         OTRO = 'otro', 'Otro'
 
     nombre_completo = models.CharField(max_length=200, verbose_name='Nombre completo / Razón social')
-    apodo = models.CharField(max_length=200, verbose_name='Apodo / Mote')
+    apodo = models.CharField(max_length=200, blank=True, verbose_name='Apodo / Mote')
     tipo_documento = models.CharField(max_length=20, choices=TipoDocumento.choices, default=TipoDocumento.DNI)
     numero_documento = models.CharField(max_length=30, blank=True, verbose_name='Número de documento')
     telefono = models.CharField(max_length=20, blank=True)

@@ -36,6 +36,7 @@ class Dispositivo(models.Model):
         ROUTER = 'router', 'Router'
         SWITCH = 'switch', 'Switch'
         AP = 'ap', 'Access Point'
+        ST = 'stp', 'Estación'
         OLT = 'olt', 'OLT'
         ONU = 'onu', 'ONU'
         ANTENA_CLIENTE = 'antena_cliente', 'Antena de cliente'
@@ -45,6 +46,8 @@ class Dispositivo(models.Model):
         UBIQUITI = 'ubiquiti', 'Ubiquiti'
         HUAWEI = 'huawei', 'Huawei'
         ZTE = 'zte', 'ZTE'
+        TPLINK = 'tplink', 'TP-Link'
+        TENDA = 'tenda', 'Tenda'
         OTRO = 'otro', 'Otro'
 
     class Estado(models.TextChoices):
