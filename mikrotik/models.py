@@ -56,8 +56,14 @@ class Plan(models.Model):
 
     router = models.ForeignKey(Router, on_delete=models.CASCADE, related_name='planes')
     nombre = models.CharField(max_length=100)
-    velocidad_bajada = models.PositiveIntegerField(verbose_name='Velocidad de bajada (Mbps)')
-    velocidad_subida = models.PositiveIntegerField(verbose_name='Velocidad de subida (Mbps)')
+    velocidad_bajada = models.PositiveIntegerField(
+        verbose_name='Velocidad de bajada (Mbps)',
+        help_text="Velocidad máxima de bajada (Mbps)."
+    )
+    velocidad_subida = models.PositiveIntegerField(
+        verbose_name='Velocidad de subida (Mbps)',
+        help_text="Velocidad máxima de subida (Mbps)."
+    )
 
     # Configuración específica de la cola en RouterOS.
     parent = models.CharField(
