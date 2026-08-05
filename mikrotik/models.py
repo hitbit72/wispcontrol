@@ -14,6 +14,10 @@ class Router(models.Model):
     da acceso administrativo completo al router — a diferencia de la clave
     PPPoE de los contratos, que se mantiene en texto plano por decisión
     del proyecto.
+
+    'active_list' y 'ppp_disable' viven aquí (por router) en vez de en
+    settings.py, porque cada router puede tener sus propios nombres de
+    lista/perfil configurados.
     """
 
     nombre = models.CharField(max_length=100)
@@ -28,6 +32,14 @@ class Router(models.Model):
     )
     sector = models.ForeignKey(
         'red.Sector', on_delete=models.SET_NULL, null=True, blank=True, related_name='routers_mikrotik',
+    )
+    active_list = models.CharField(
+        max_length=100, verbose_name='Lista usuarios activos',
+        help_text="List de usuario activos del FW",
+    )
+    ppp_disable = models.CharField(
+        max_length=100, verbose_name='Perfil desactivados ',
+        help_text="Nombre del perfil ppp de usuarios desactivados",
     )
     latitud = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
     longitud = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)

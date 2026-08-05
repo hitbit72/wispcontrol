@@ -82,6 +82,7 @@ DATABASES = {
     }
 }
 
+
 # --- Usuario personalizado (con roles) ------------------------------------
 AUTH_USER_MODEL = 'accounts.Usuario'
 
@@ -112,3 +113,46 @@ STATICFILES_DIRS = [BASE_DIR / 'static'] if (BASE_DIR / 'static').exists() else 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# --- Datos del mikrotik -----------------------------------------------------------
+#
+# Estos datos son configurados directamente en el router y se usan para crear los secrets PPPoE y las colas simples.
+#
+# ACTIVE_LIST = Nombre de la lista de firewall donde se agregan los clientes activos.
+# PPP_DISABLED = Nombre del profile PPPoE que se asigna a los clientes deshabilitados.
+# parent, busrt-limit, busrt-threshold, burst-time, bucket-size, queue, total-queue, place-before: son parámetros de la cola simple preconfigurados en el mikrotik que se aplican a todos los clientes.
+
+MK_OPTIONS = {
+    'ACTIVE_LIST': 'ACTIVE_USER',
+    'PPP_DISABLED': 'DISABLE_USER',
+    'SIMPLE_QUEUE': {
+        'name': '',
+        'target': '',
+        'parent': 'LAN_TOTAL',
+        'max_limit': '5M/10M',
+        'limit-at': '2M/5M',
+        'priority': '6/6',
+        'burst-limit': '0/0',
+        'burst-threshold': '0/0',
+        'burst-time': '0s/0s',
+        'bucket-size': '0.1/0.1',
+        'queue': 'cake-fibra/cake-fibra',
+        'total-queue': 'default',
+        'place-before': 'Ciber1',
+        'comment': ''
+    },
+    'SECRET': {
+        'name': '',
+        'password': '',
+        'profile': 'default',
+        'service': 'pppoe',
+        'comment': ''
+    },
+	'FW_LIST': {
+		'address': '',
+		'list': 'ACTIVE_USER',
+		'comment': '',
+		'disabled':'no'
+	}
+}
