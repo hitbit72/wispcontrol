@@ -111,3 +111,49 @@ class Plan(models.Model):
 
     def __str__(self):
         return f'{self.nombre} · {self.router.nombre} ({self.velocidad_bajada}/{self.velocidad_subida} Mbps)'
+
+class TareaSincronizacion(models.Model):
+    """
+    Cola de sincronización entre un Contrato y el router MikroTik real.
+
+    Django solo crea filas aquí al guardar/borrar un Contrato — nunca llama
+    al router directamente. El servicio MikroTik (proceso Python
+    independiente) procesa las tareas 'pendiente', las pasa a 'procesando'
+    y las deja en 'completada' o 'fallida', para no acoplar la velocidad o
+    disponibilidad del router a la del portal.
+
+    Ver docs/fase2_mikrotik_proceso.md para el detalle completo del proceso.
+    """
+
+    class Operacion(models.TextChoices):
+        ALTA = 'alta', 'Alta'
+        MODIFICACION = 'modificacion', 'Modificación'
+        BAJA = 'baja', 'Baja'
+
+    class Estado(models.TextChoices):
+        PENDIENTE = 'pendiente', 'Pendiente'
+        PROCESANDO = 'procesando', 'Procesando'
+        COMPLETADA = 'completada', 'Completada'
+        FALLIDA = 'fallida', 'Fallida'
+
+    contrato = models.ForeignKey(
+        'clientes.Contrato', on_delete=models.CASCADE, related_name='tareas_mikrotik',
+    )
+    operacion = models.CharField(max_length=20, choices=Operacion.choices)
+    estado = models.CharField(max_length=20, choices=Estado.choices, default=Estado.PENDIENTE)
+    identificador_anterior = models.CharField(
+        max_length=100, blank=True,
+        help_text='Solo se usa si la operación es una modificación que renombra el identificador.',
+    )
+    intentos = models.PositiveIntegerField(default=0)
+    mensaje_error = models.TextField(blank=True)
+    creada_en = models.DateTimeField(auto_now_add=True)
+    procesada_en = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Tarea de sincronización MikroTik'
+        verbose_name_plural = 'Tareas de sincronización MikroTik'
+        ordering = ['-creada_en']
+
+    def __str__(self):
+        return f'{self.contrato} · {self.get_operacion_display()} · {self.get_estado_display()}'

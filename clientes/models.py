@@ -31,7 +31,7 @@ class Cliente(models.Model):
         ordering = ['nombre_completo']
 
     def __str__(self):
-        return self.nombre_completo
+        return f'{self.nombre_completo} · ({self.poblacion})'
 
 
 class Contrato(models.Model):
@@ -59,7 +59,11 @@ class Contrato(models.Model):
 
     # Campos pensados para la integración futura con el servicio MikroTik.
     conexion = models.CharField(max_length=20, choices=Conexion.choices, default=Conexion.DHCP, verbose_name='Tipo de conexión')
-    pppoe_usuario = models.CharField(max_length=100, blank=True, verbose_name='Usuario PPPoE')
+    identificador_mikrotik = models.CharField(
+        max_length=100, blank=True,
+        verbose_name='Usuario MikroTik',
+        help_text='Nombre del secret PPPoE o del simple queue en el router, según el tipo de conexión.',
+    )
     pppoe_clave = models.CharField(max_length=100, blank=True, verbose_name='Clave PPPoE')
     ip_asignada = models.GenericIPAddressField(null=True, blank=True, verbose_name='IP asignada')
 

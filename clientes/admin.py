@@ -19,4 +19,4 @@ class ClienteAdmin(admin.ModelAdmin):
 class ContratoAdmin(admin.ModelAdmin):
     list_display = ('cliente', 'plan', 'conexion', 'estado', 'precio_mensual')
     list_filter = ('estado', 'conexion', 'plan__router')
-    search_fields = ('cliente__nombre_completo', 'plan__nombre', 'pppoe_usuario', 'ip_asignada')
+    search_fields = ('cliente__nombre_completo', 'plan__nombre', 'identificador_mikrotik', 'ip_asignada')
