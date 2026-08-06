@@ -35,7 +35,7 @@ class Router(models.Model):
     )
     active_list = models.CharField(
         max_length=100, verbose_name='Lista usuarios activos',
-        help_text="List de usuario activos del FW", blank=True
+        help_text="List de usuario activos del FW", blank=True, default='active_users'
     )
     ppp_disable = models.CharField(
         max_length=100, verbose_name='Perfil desactivados ',
