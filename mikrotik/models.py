@@ -147,7 +147,7 @@ class TareaSincronizacion(models.Model):
         related_name='tareas_mikrotik',
     )
     identificador_mikrotik = models.CharField(
-        max_length=100,
+        max_length=100, blank=True,
         help_text='Copia del identificador en el momento de encolar la tarea (sobrevive aunque el contrato se elimine).',
     )
     conexion = models.CharField(
