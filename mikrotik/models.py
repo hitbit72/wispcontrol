@@ -35,11 +35,11 @@ class Router(models.Model):
     )
     active_list = models.CharField(
         max_length=100, verbose_name='Lista usuarios activos',
-        help_text="List de usuario activos del FW",
+        help_text="List de usuario activos del FW", blank=True
     )
     ppp_disable = models.CharField(
         max_length=100, verbose_name='Perfil desactivados ',
-        help_text="Nombre del perfil ppp de usuarios desactivados",
+        help_text="Nombre del perfil ppp de usuarios desactivados", blank=True
     )
     latitud = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
     longitud = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
