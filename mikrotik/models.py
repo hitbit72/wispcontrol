@@ -122,6 +122,12 @@ class TareaSincronizacion(models.Model):
     y las deja en 'completada' o 'fallida', para no acoplar la velocidad o
     disponibilidad del router a la del portal.
 
+    'contrato' es SET_NULL (no CASCADE): en una baja por eliminación real del
+    contrato, la tarea tiene que sobrevivir al borrado para que el servicio
+    la pueda procesar y avisarle al router. Por eso 'identificador_mikrotik'
+    y 'conexion' se guardan como copia en el momento de encolar la tarea, en
+    vez de leerse siempre desde el contrato (que puede ya no existir).
+
     Ver docs/fase2_mikrotik_proceso.md para el detalle completo del proceso.
     """
 
@@ -137,7 +143,16 @@ class TareaSincronizacion(models.Model):
         FALLIDA = 'fallida', 'Fallida'
 
     contrato = models.ForeignKey(
-        'clientes.Contrato', on_delete=models.CASCADE, related_name='tareas_mikrotik',
+        'clientes.Contrato', on_delete=models.SET_NULL, null=True, blank=True,
+        related_name='tareas_mikrotik',
+    )
+    identificador_mikrotik = models.CharField(
+        max_length=100,
+        help_text='Copia del identificador en el momento de encolar la tarea (sobrevive aunque el contrato se elimine).',
+    )
+    conexion = models.CharField(
+        max_length=20,
+        help_text="Copia de Contrato.conexion en el momento de encolar la tarea ('pppoe' o 'sq').",
     )
     operacion = models.CharField(max_length=20, choices=Operacion.choices)
     estado = models.CharField(max_length=20, choices=Estado.choices, default=Estado.PENDIENTE)
@@ -156,4 +171,5 @@ class TareaSincronizacion(models.Model):
         ordering = ['-creada_en']
 
     def __str__(self):
-        return f'{self.contrato} · {self.get_operacion_display()} · {self.get_estado_display()}'
+        cliente = self.contrato.cliente.nombre_completo if self.contrato else '(contrato eliminado)'
+        return f'{cliente} · {self.identificador_mikrotik} · {self.get_operacion_display()} · {self.get_estado_display()}'

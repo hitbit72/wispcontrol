@@ -33,9 +33,9 @@ class TareaSincronizacionAdmin(admin.ModelAdmin):
     procesa el servicio MikroTik — no se crean ni editan a mano desde aquí,
     solo sirve para ver el estado y el motivo si algo falló.
     """
-    list_display = ('contrato', 'operacion', 'estado', 'intentos', 'creada_en', 'procesada_en')
-    list_filter = ('estado', 'operacion')
-    search_fields = ('contrato__cliente__nombre_completo', 'contrato__identificador_mikrotik')
+    list_display = ('contrato', 'identificador_mikrotik', 'operacion', 'estado', 'intentos', 'creada_en', 'procesada_en')
+    list_filter = ('estado', 'operacion', 'conexion')
+    search_fields = ('contrato__cliente__nombre_completo', 'identificador_mikrotik')
     readonly_fields = [f.name for f in TareaSincronizacion._meta.fields]
 
     def has_add_permission(self, request):

@@ -5,3 +5,6 @@ class ClientesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'clientes'
     verbose_name = 'Clientes y contratos'
+
+    def ready(self):
+        from . import signals  # noqa: F401
