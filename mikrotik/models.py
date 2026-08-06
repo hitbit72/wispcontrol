@@ -151,7 +151,7 @@ class TareaSincronizacion(models.Model):
         help_text='Copia del identificador en el momento de encolar la tarea (sobrevive aunque el contrato se elimine).',
     )
     conexion = models.CharField(
-        max_length=20,
+        max_length=20, blank=True,
         help_text="Copia de Contrato.conexion en el momento de encolar la tarea ('pppoe' o 'sq').",
     )
     operacion = models.CharField(max_length=20, choices=Operacion.choices)
