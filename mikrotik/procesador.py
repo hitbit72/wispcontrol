@@ -101,7 +101,14 @@ def _procesar_sq(api, tarea):
     if tarea.operacion == 'alta':
         if _buscar_por_nombre(queues, tarea.identificador_mikrotik):
             return
-        queues.add(**_datos_simple_queue(contrato))
+        datos = _datos_simple_queue(contrato)
+        # 'place-before' solo es válido en la creación (/queue/simple/add);
+        # en /queue/simple/set el router lo rechaza con 'unknown parameter
+        # place-before'. Por eso se agrega aquí y no dentro de
+        # _datos_simple_queue(), que también se usa para modificar.
+        if contrato.plan.before:
+            datos['place-before'] = contrato.plan.before
+        queues.add(**datos)
         _asegurar_en_active_list(address_list, contrato, activo=True)
         return
 
@@ -138,6 +145,12 @@ def _procesar_sq(api, tarea):
 
 
 def _datos_simple_queue(contrato):
+    """
+    Campos comunes a alta y modificación de un Simple Queue. NO incluye
+    'place-before': ese parámetro solo es válido en /queue/simple/add, y
+    RouterOS rechaza con error ('unknown parameter place-before') si se
+    envía en /queue/simple/set. Se agrega aparte solo en el alta.
+    """
     plan = contrato.plan
     opciones = settings.MK_OPTIONS
     return {
@@ -154,7 +167,6 @@ def _datos_simple_queue(contrato):
         'queue': opciones['QUEUE_TYPE'],
         'total-queue': opciones['TOTAL_QUEUE'],
         'comment': contrato.cliente.nombre_completo,
-        'place-before': plan.before,
     }
 
 

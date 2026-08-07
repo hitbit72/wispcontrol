@@ -159,6 +159,11 @@ class TareaSincronizacion(models.Model):
         max_length=20, blank=True,
         help_text="Copia de Contrato.conexion en el momento de encolar la tarea ('pppoe' o 'sq').",
     )
+    estado_contrato = models.CharField(
+        max_length=20, blank=True,
+        verbose_name='Estado del contrato',
+        help_text='Copia de Contrato.estado en el momento de encolar la tarea, para saber qué tipo de cambio motivó la modificación (ej. reactivación vs. suspensión) al consultarla después.',
+    )
     operacion = models.CharField(max_length=20, choices=Operacion.choices)
     estado = models.CharField(max_length=20, choices=Estado.choices, default=Estado.PENDIENTE)
     identificador_anterior = models.CharField(
@@ -177,4 +182,7 @@ class TareaSincronizacion(models.Model):
 
     def __str__(self):
         cliente = self.contrato.cliente.nombre_completo if self.contrato else '(contrato eliminado)'
-        return f'{cliente} · {self.identificador_mikrotik} · {self.get_operacion_display()} · {self.get_estado_display()}'
+        return (
+            f'{cliente} · {self.identificador_mikrotik} · {self.get_operacion_display()} '
+            f'(contrato: {self.estado_contrato}) · {self.get_estado_display()}'
+        )
