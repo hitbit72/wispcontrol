@@ -129,3 +129,7 @@ MK_OPTIONS = {
     'QUEUE_TYPE': 'cake-fibra/cake-fibra',
     'TOTAL_QUEUE': 'default',
 }
+
+# Intentos máximos antes de dejar una TareaSincronizacion como 'fallida'
+# definitiva (a partir de ahí, solo se reintenta a mano desde el admin).
+MK_MAX_INTENTOS = int(os.environ.get('MK_MAX_INTENTOS', '3'))

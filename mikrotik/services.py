@@ -31,6 +31,7 @@ def encolar_tarea(contrato, operacion, identificador_anterior='', vincular_contr
 
     return TareaSincronizacion.objects.create(
         contrato=contrato if vincular_contrato else None,
+        router=contrato.plan.router,
         identificador_mikrotik=contrato.identificador_mikrotik,
         conexion=contrato.conexion,
         operacion=operacion,

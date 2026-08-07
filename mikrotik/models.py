@@ -146,6 +146,11 @@ class TareaSincronizacion(models.Model):
         'clientes.Contrato', on_delete=models.SET_NULL, null=True, blank=True,
         related_name='tareas_mikrotik',
     )
+    router = models.ForeignKey(
+        'mikrotik.Router', on_delete=models.SET_NULL, null=True, blank=True,
+        related_name='tareas_sincronizacion',
+        help_text='Copia de contrato.plan.router en el momento de encolar la tarea: en una baja, el contrato puede ya no existir y esta es la única forma de saber a qué router conectarse.',
+    )
     identificador_mikrotik = models.CharField(
         max_length=100, blank=True,
         help_text='Copia del identificador en el momento de encolar la tarea (sobrevive aunque el contrato se elimine).',
